@@ -1,12 +1,13 @@
 import nonebot
-from nonebot.adapters.console import Adapter as ConsoleAdapter
+from nonebot.adapters.mirai2 import Adapter as MiraiAdapter
 from nonebot import logger
 
 # Initialization
 nonebot.init()
+app = nonebot.get_asgi()
 
 driver = nonebot.get_driver()
-driver.register_adapter(ConsoleAdapter)
+driver.register_adapter(MiraiAdapter)
 
 config = driver.config
 for pluginDir in driver.config.plugin_dir:
@@ -14,4 +15,5 @@ for pluginDir in driver.config.plugin_dir:
 
 logger.success("Plugins have been loaded.")
 
-nonebot.run()
+if __name__ == "__main__":
+    nonebot.run(app = "__mp_main__:app")
