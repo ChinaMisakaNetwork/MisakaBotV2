@@ -1,2 +1,6 @@
 nonebot2[fastapi]
 nonebot_adapter_mirai2
+sqlalchemy
+pydantic
+pymysql
+cryptography

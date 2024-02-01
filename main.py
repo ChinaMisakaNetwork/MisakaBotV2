@@ -9,6 +9,8 @@ app = nonebot.get_asgi()
 driver = nonebot.get_driver()
 driver.register_adapter(MiraiAdapter)
 
+nonebot.load_plugin("Database")
+
 config = driver.config
 for pluginDir in driver.config.plugin_dir:
     nonebot.load_plugins(pluginDir)
