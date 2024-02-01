@@ -10,26 +10,34 @@ from nonebot.rule import Rule
 from nonebot.matcher import Matcher
 
 from nonebot import logger
+import os, json
 
-adminConfig = Config.parse_obj(get_driver().config).admin
+def createConfig():
+    configText = Config().dumps()
+    with open("Configs/AutoAdmin.json", "w") as file:
+        file.write(configText)
+        file.flush()
+
+
+if not os.path.exists("Configs/AutoAdmin.json"):
+    createConfig()
+    logger.info("Config created.")
+
+try:
+    adminConfig = Config.parse_obj(json.load(open("Configs/AutoAdmin.json")))
+except json.JSONDecodeError:
+    logger.warning("Corrupted config, plugin disabled")
+    adminConfig = Config()
+    adminConfig.enabled = False
 
 # Blacklist Function
 async def isBlacklistEnabled() -> bool:
     return adminConfig.enabled
 
 async def isBlacklistCanHandle(event: Event) -> bool:
-    logger.debug(isinstance(event, MemberJoinRequestEvent))
     if not isinstance(event, MemberJoinRequestEvent):
         return False
-    logger.debug(adminConfig.domain)
-    if adminConfig.domain == "*":
-        return True
-    if not len(adminConfig.domain):
-        return False
-    if adminConfig.domain[0] == "-":
-        return event.group_id not in map(int, adminConfig.domain[1:].split(","))
-    logger.debug(adminConfig.domain.split(","))
-    return event.group_id in map(int, adminConfig.domain.split(","))
+    return (event.group_id in adminConfig.domain) or ("*" in adminConfig.domain and -event.group_id not in adminConfig.domain)
 
 isBlacklistHandle = Rule(isBlacklistEnabled, isBlacklistCanHandle)
 
