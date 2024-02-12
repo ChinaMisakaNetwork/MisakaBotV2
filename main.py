@@ -1,5 +1,5 @@
 import nonebot
-from nonebot.adapters.mirai2 import Adapter as MiraiAdapter
+from nonebot.adapters.onebot import V11Adapter
 from nonebot import logger
 
 # Initialization
@@ -7,7 +7,7 @@ nonebot.init()
 app = nonebot.get_asgi()
 
 driver = nonebot.get_driver()
-driver.register_adapter(MiraiAdapter)
+driver.register_adapter(V11Adapter)
 
 nonebot.load_plugin("Database")
 

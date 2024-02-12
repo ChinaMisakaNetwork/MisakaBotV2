@@ -1,6 +1,9 @@
 nonebot2[fastapi]
 nonebot_adapter_mirai2
+nonebot_adapter_onebot
 sqlalchemy
 pydantic
 pymysql
 cryptography
+uvicorn[standard]
+nonebot-plugin-alconna
