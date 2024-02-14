@@ -9,3 +9,7 @@ class Config(ConfigBase):
     kick: bool = True
     hint: bool = True
     blacklist_message: str = "BLACKLISTED_MESSAGE"
+
+    mute_super_priv: int = 3
+    mute_approve: int = 2
+    mute_cancel_after: int = 1800
